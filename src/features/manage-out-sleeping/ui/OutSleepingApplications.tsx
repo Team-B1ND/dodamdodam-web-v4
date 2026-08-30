@@ -50,7 +50,7 @@ const OutSleepingApplications = ({ date }: Props) => {
       app.student.name,
       studentId,
       period,
-      app.reason,
+      <p className="max-w-xs truncate text-text-secondary">{app.reason}</p>,
       statusIcon,
       <OutSleepingActionCell
         key={app.publicId}
