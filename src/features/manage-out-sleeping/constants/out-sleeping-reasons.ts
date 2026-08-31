@@ -1,14 +1,15 @@
 import type { OutSleepingReasonType } from "@/entities/out-sleeping/types";
 import type { DropdownItem } from "@b1nd/dodam-design-system/components";
 
-export const OUT_SLEEPING_REASON_LABELS: Record<OutSleepingReasonType, string> = {
-  PERSONAL: "일반 외박",
-  TRAINING: "연수",
-  INTERNSHIP: "현장실습",
-  SILICON_VALLEY: "실리콘벨리",
-  SICK_LEAVE: "병가",
-  ETC: "기타",
-};
+export const OUT_SLEEPING_REASON_LABELS: Record<OutSleepingReasonType, string> =
+  {
+    PERSONAL: "일반 외박",
+    TRAINING: "연수",
+    INTERNSHIP: "현장실습",
+    SILICON_VALLEY: "실리콘벨리",
+    SICK_LEAVE: "병가",
+    ETC: "기타",
+  };
 
 export const OUT_SLEEPING_REASON_ITEMS: DropdownItem[] = Object.entries(
   OUT_SLEEPING_REASON_LABELS,
@@ -17,4 +18,7 @@ export const OUT_SLEEPING_REASON_ITEMS: DropdownItem[] = Object.entries(
 export const formatOutSleepingReason = (
   reasonType: OutSleepingReasonType,
   reason: string | null,
-) => (reasonType === "ETC" && reason ? `기타 (${reason})` : OUT_SLEEPING_REASON_LABELS[reasonType]);
+) =>
+  reasonType === "ETC" && reason
+    ? `기타 (${reason})`
+    : OUT_SLEEPING_REASON_LABELS[reasonType];
