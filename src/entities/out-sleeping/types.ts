@@ -10,7 +10,8 @@ export type OutSleepingReasonType =
 
 export interface OutSleeping {
   publicId: string;
-  reason: string;
+  reasonType: OutSleepingReasonType;
+  reason: string | null;
   status: OutSleepingStatus;
   startAt: string;
   endAt: string;
@@ -25,7 +26,8 @@ export interface OutSleepingApplyRequest {
 
 export interface OutSleepingApplication {
   publicId: string;
-  reason: string;
+  reasonType: OutSleepingReasonType;
+  reason: string | null;
   status: OutSleepingStatus;
   student: {
     name: string;

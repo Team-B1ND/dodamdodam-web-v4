@@ -1,4 +1,5 @@
 import { useGetOutSleepingApplications } from "@/entities/out-sleeping/queries";
+import { formatOutSleepingReason } from "@/features/manage-out-sleeping/constants/out-sleeping-reasons";
 import { padDate } from "@/shared/utils/pad-date";
 import { parseDate } from "@/shared/utils/parse-date";
 import { Table, useOverlay } from "@b1nd/dodam-design-system/components";
@@ -50,7 +51,9 @@ const OutSleepingApplications = ({ date }: Props) => {
       app.student.name,
       studentId,
       period,
-      <p className="max-w-xs truncate text-text-secondary">{app.reason}</p>,
+      <p className="max-w-xs truncate text-text-secondary">
+        {formatOutSleepingReason(app.reasonType, app.reason)}
+      </p>,
       statusIcon,
       <OutSleepingActionCell
         key={app.publicId}
@@ -80,6 +83,7 @@ const OutSleepingApplications = ({ date }: Props) => {
           studentId={studentId}
           startDate={parseDate(selectApp.startAt)}
           endDate={parseDate(selectApp.endAt)}
+          reasonType={selectApp.reasonType}
           reason={selectApp.reason}
           onClose={onClose}
         />
