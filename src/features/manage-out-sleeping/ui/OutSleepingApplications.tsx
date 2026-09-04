@@ -1,9 +1,13 @@
 import { useGetOutSleepingApplications } from "@/entities/out-sleeping/queries";
-import { formatOutSleepingReason } from "@/features/manage-out-sleeping/constants/out-sleeping-reasons";
+import type { OutSleepingReasonType } from "@/entities/out-sleeping/types";
+import {
+  formatOutSleepingReason,
+  OUT_SLEEPING_REASON_FILTER_ITEMS,
+} from "@/features/manage-out-sleeping/constants/out-sleeping-reasons";
 import { padDate } from "@/shared/utils/pad-date";
 import { parseDate } from "@/shared/utils/parse-date";
-import { Table, useOverlay } from "@b1nd/dodam-design-system/components";
-import { useEffect } from "react";
+import { Dropdown, Table, useOverlay } from "@b1nd/dodam-design-system/components";
+import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import OutSleepingActionCell from "./OutSleepingActionCell";
 import OutSleepingSkeletonRows from "./OutSleepingSkeletonRows";
@@ -20,8 +24,9 @@ interface Props {
 const OutSleepingApplications = ({ date }: Props) => {
   const isMobile = useIsMobile();
   const overlay = useOverlay();
+  const [reasonType, setReasonType] = useState<OutSleepingReasonType>();
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useGetOutSleepingApplications(padDate(date));
+    useGetOutSleepingApplications(padDate(date), reasonType);
   const applications = data.pages.flatMap((page) => page.data.content);
 
   const { ref, inView } = useInView();
@@ -93,6 +98,17 @@ const OutSleepingApplications = ({ date }: Props) => {
 
   return (
     <div className="flex flex-col overflow-y-auto grow">
+      <div className="flex justify-end pb-3 shrink-0">
+        <Dropdown
+          items={OUT_SLEEPING_REASON_FILTER_ITEMS}
+          value={reasonType ?? ""}
+          onSelectedItemChange={(item) =>
+            setReasonType(
+              item.value === "" ? undefined : (item.value as OutSleepingReasonType),
+            )
+          }
+        />
+      </div>
       <div className="overflow-x-auto">
         <div className="sm:min-w-174">
           <Table onRowClick={isMobile ? openModal : undefined} keys={isMobile ? MOBILE_TABLE_KEYS : TABLE_KEYS} data={rows} />

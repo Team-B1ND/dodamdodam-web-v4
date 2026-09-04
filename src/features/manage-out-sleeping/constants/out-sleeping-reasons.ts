@@ -15,6 +15,11 @@ export const OUT_SLEEPING_REASON_ITEMS: DropdownItem[] = Object.entries(
   OUT_SLEEPING_REASON_LABELS,
 ).map(([value, name]) => ({ value, name }));
 
+export const OUT_SLEEPING_REASON_FILTER_ITEMS: DropdownItem[] = [
+  { name: "전체 사유", value: "" },
+  ...OUT_SLEEPING_REASON_ITEMS,
+];
+
 export const formatOutSleepingReason = (
   reasonType: OutSleepingReasonType,
   reason: string | null,

@@ -2,6 +2,7 @@ import type {
   OutSleeping,
   OutSleepingApplication,
   OutSleepingApplyRequest,
+  OutSleepingReasonType,
 } from "@/entities/out-sleeping/types";
 import { apiClient } from "@/shared/libs/api-client";
 import type { PageResponse } from "@b1nd/api-client";
@@ -21,9 +22,21 @@ export const OutSleepingApi = {
     return await apiClient.delete(`${OUT_SLEEPING_BASE}/${publicId}`);
   },
 
-  async getOutSleepingApplications(params: { date: string; page: number }) {
+  async getOutSleepingApplications(params: {
+    date: string;
+    page: number;
+    reasonType?: OutSleepingReasonType;
+  }) {
+    const searchParams = new URLSearchParams({
+      date: params.date,
+      size: "20",
+      page: String(params.page),
+    });
+
+    if (params.reasonType) searchParams.set("reasonType", params.reasonType);
+
     return await apiClient.get<PageResponse<OutSleepingApplication>>(
-      `/out-sleeping?date=${params.date}&size=20&page=${params.page}`,
+      `${OUT_SLEEPING_BASE}?${searchParams}`,
     );
   },
 
