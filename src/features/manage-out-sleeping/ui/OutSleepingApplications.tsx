@@ -26,8 +26,11 @@ const OutSleepingApplications = ({ date }: Props) => {
   const overlay = useOverlay();
   const [reasonType, setReasonType] = useState<OutSleepingReasonType>();
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useGetOutSleepingApplications(padDate(date), reasonType);
+    useGetOutSleepingApplications(padDate(date));
   const applications = data.pages.flatMap((page) => page.data.content);
+  const filteredApplications = reasonType
+    ? applications.filter((app) => app.reasonType === reasonType)
+    : applications;
 
   const { ref, inView } = useInView();
 
@@ -37,7 +40,7 @@ const OutSleepingApplications = ({ date }: Props) => {
     }
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-  const rows = applications.map((app) => {
+  const rows = filteredApplications.map((app) => {
     const { grade, room, number } = app.student;
     const studentId = `${grade}${room}${String(number).padStart(2, "0")}`;
     const period = `${parseDate(app.startAt)} ~ ${parseDate(app.endAt)}`;
@@ -76,7 +79,7 @@ const OutSleepingApplications = ({ date }: Props) => {
       };
       setDimClickHandler(onClose);
 
-      const selectApp = applications[idx];
+      const selectApp = filteredApplications[idx];
 
       const { grade, room, number } = selectApp.student;
       const studentId = `${grade}${room}${String(number).padStart(2, "0")}`;

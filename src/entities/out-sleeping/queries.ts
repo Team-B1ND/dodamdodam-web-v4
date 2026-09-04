@@ -1,5 +1,4 @@
 import { OutSleepingApi } from "@/entities/out-sleeping/api";
-import type { OutSleepingReasonType } from "@/entities/out-sleeping/types";
 import {
   useSuspenseInfiniteQuery,
   useSuspenseQuery,
@@ -12,14 +11,11 @@ export const useGetMyOutSleepingQuery = () =>
     staleTime: 1000 * 60 * 5,
   });
 
-export const useGetOutSleepingApplications = (
-  date: string,
-  reasonType?: OutSleepingReasonType,
-) =>
+export const useGetOutSleepingApplications = (date: string) =>
   useSuspenseInfiniteQuery({
-    queryKey: ["out-sleeping", "applications", date, reasonType],
+    queryKey: ["out-sleeping", "applications", date],
     queryFn: ({ pageParam }) =>
-      OutSleepingApi.getOutSleepingApplications({ date, page: pageParam, reasonType }),
+      OutSleepingApi.getOutSleepingApplications({ date, page: pageParam }),
 
     initialPageParam: 0,
 
